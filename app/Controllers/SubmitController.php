@@ -33,7 +33,7 @@ class SubmitController
         $personData = new PersonAdmin();
         $personData->delete(key($_POST), $_POST[key($_POST)]);
 
-        require_once 'app/Views/home.php';
+        (new HomeController())->showHomePage();
     }
 
 

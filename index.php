@@ -33,6 +33,7 @@ if(isset($_POST['name'])){
 require_once 'vendor/autoload.php';
 
 
+use App\Controllers\EditController;
 use App\Controllers\HomeController;
 use App\Controllers\SearchController;
 use App\Controllers\SubmitController;
@@ -51,6 +52,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     $r->addRoute('POST', '/delete', [SubmitController::class, 'deletePerson']);
 
+    $r->addRoute('GET', '/delete', [HomeController::class, 'showHomePage']);
+
+    $r->addRoute('GET', '/edit', [EditController::class, 'showPage']);
 
 });
 

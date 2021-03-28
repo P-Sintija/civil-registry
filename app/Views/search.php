@@ -48,6 +48,18 @@ if (isset($_POST['name']) || isset($_POST['surname']) || isset($_POST['personalC
             class="button" value= <?php echo $person->getPersonalCode(); ?>>DELETE</button>
         </form>
 
+        <form method="get" action="/edit">
+
+            <?php $keys = ['name','personalCode']?>
+            <button type="submit" name= <?php foreach($keys as $key){
+                echo $key ;
+            }; ?>
+            class="button" value= <?php foreach( [$person->getName(), $person->getPersonalCode()] as $value) {
+                echo $value;
+            }; ?>>EDIT</button>
+        </form>
+
+
         <?php
     }
 }

@@ -13,13 +13,13 @@
 
 <form method="post">
     <label for="name">Name: </label>
-    <input type="text" name="name" id="name">
+    <input type="text" name="name" id="name"  >
 
     <label for="surname">Surname: </label>
     <input type="text" name="username" id="surname">
 
     <label for="code">Personal code: </label>
-    <input type="text" name="personalCode" id="code">
+    <input type="text" name="personalCode" id="code" placeholder= <?php //echo key($_GET[1]) . $_GET[key($_GET[1])]; ?>>
 
     <button type="submit">Save</button>
 </form>
