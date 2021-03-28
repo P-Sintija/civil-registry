@@ -13,19 +13,31 @@
 
 <form method="post">
     <label for="name">Name: </label>
-    <input type="text" name="name" id="name"  >
+    <input type="text" name="name" id="name" value= <?php echo $person[0]->getName(); ?>>
+
+    <br>
 
     <label for="surname">Surname: </label>
-    <input type="text" name="username" id="surname">
+    <input type="text" name="surname" id="surname" value= <?php echo $person[0]->getSurname(); ?>>
 
-    <label for="code">Personal code: </label>
-    <input type="text" name="personalCode" id="code" placeholder= <?php //echo key($_GET[1]) . $_GET[key($_GET[1])]; ?>>
+    <br>
 
-    <button type="submit">Save</button>
+    <label for="code">Personal Id: </label>
+    <input type="text" name="personalId" id="code" value= <?php echo $person[0]->getPersonalId(); ?>>
+
+    <br>
+
+    <label for="personality">Personality: </label>
+    <input type="text" name="personality" id="personality" value= <?php echo $person[0]->getPersonality(); ?>>
+
+    <br>
+
+    <button type="submit">save</button>
 </form>
 
+<br>
 
-<form method="get" action="/" >
+<form method="get" action="/">
     <input type="submit" name="submit" value="home">
 </form>
 

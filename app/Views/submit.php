@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<h1>New person registry</h1>
+<h1>Add new person</h1>
 
 <form method="post">
     <label for="name">Name: </label>
@@ -18,21 +18,27 @@
     <br>
 
     <label for="surname">Surname: </label>
-    <input type="text" name="username" id="surname">
+    <input type="text" name="surname" id="surname">
 
     <br>
 
-    <label for="code">Personal code: </label>
-    <input type="text" name="personalCode" id="code">
+    <label for="code">Personal id: </label>
+    <input type="text" name="personalId" id="code">
 
     <br>
 
-    <button type="submit">Save</button>
+    <label for="personality">Personality: </label>
+    <input type="text" name="personality" id="personality">
+
+
+    <button type="submit" >save</button>
+
 </form>
 
+<br>
 
-<form method="get" action="/" >
-    <input type="submit" name="submit" value="back">
+<form method="get" action="/">
+    <input type="submit" name="submit" value="home">
 </form>
 
 </body>

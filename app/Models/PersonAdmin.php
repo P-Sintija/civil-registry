@@ -5,31 +5,28 @@ namespace App\Models;
 
 class PersonAdmin
 {
-    private Saver $database;
-    private PersonCollection $persons;
+    private PersonRepository $database;
 
     public function __construct()
     {
         $this->database = new SQLRepository();
-        $this->persons = $this->database->getPersonData();
     }
 
-    public function getPersons(): PersonCollection
+    public function validateInput(array $data): bool
     {
-        return $this->persons;
+        if ($this->validateText($data['name']) &&
+            $this->validateText($data['surname']) &&
+            $this->validateCode($data['personalId'])) {
+            return true;
+        }
+        return false;
     }
 
-
-    public function validateInput(string $name, string $surname, string $code): void
+    public function savePersonData(array $newInfo): void
     {
-        echo 'PERSON ADMIN->VALIDATE INPUT -> SQL->SAVE';
-        echo 'name:' . $name . '  surname:' . $surname . '  code:' . $code;
-
-        //todo - validācija visiem inputiem, vai vārdā nav char,
-        // vai personas kodā nav char un vai tāds jau neeksistē;
-
-
-        $this->database->savePersonData($name, $surname, $code);
+        if ($this->validateInput($newInfo) && !$this->database->checkPersonExists($newInfo)) {
+            $this->database->save($newInfo);
+        }
     }
 
     public function search(string $key, string $value): PersonCollection
@@ -41,9 +38,52 @@ class PersonAdmin
         return $search;
     }
 
-    public function delete(string $key, string $value): void
+    public function editPersonData(Person $person, array $editedInfo): void
+    {
+        if ($this->validateInput($editedInfo) &&
+            (!$this->database->checkPersonExists($editedInfo) ||
+                ($this->database->checkPersonExists($editedInfo) &&
+                    $editedInfo['personalId'] === $person->getPersonalId()))) {
+            $this->database->edit($person, $editedInfo);
+        }
+    }
+
+    public function deletePerson(string $key, string $value): void
     {
         $this->database->delete($key, $value);
+    }
+
+
+    private function validateText(string $name): bool
+    {
+        $char = [];
+        for ($i = 0; $i < strlen($name); $i++) {
+            if (!in_array(strtolower($name[$i]), range('a', 'z'))) {
+                $char[] = $name[$i];
+            }
+        }
+
+        if (count($char) === 0 && strlen($name) > 0 && strlen($name) <= 255) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function validateCode(string $code): bool
+    {
+        $char = [];
+        for ($i = 0; $i < strlen($code); $i++) {
+            if (!is_numeric($code[$i])) {
+                $char[] = $code[$i];
+            }
+        }
+
+        if (count($char) === 0 && strlen($code) === 11) {
+            return true;
+        }
+
+        return false;
     }
 
 }

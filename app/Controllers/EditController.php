@@ -1,6 +1,6 @@
 <?php
-namespace App\Controllers;
 
+namespace App\Controllers;
 
 use App\Models\PersonAdmin;
 
@@ -8,19 +8,22 @@ use App\Models\PersonAdmin;
 class EditController
 {
 
-
-    public function showPage()
+    public function showPage(): void
     {
-
-
-        echo 'GET EditCONTROLLER SHOwPAGE' . '<br>';
-
-        var_dump($_GET);
-        var_dump($_POST);
-
+        $personData = new PersonAdmin();
+        $person = $personData->search(key($_GET), $_GET[key($_GET)])->getPersonData();
 
         require_once 'app/Views/edit.php';
     }
 
+    public function editPerson(): void
+    {
+        $personData = new PersonAdmin();
+        $person = $personData->search(key($_GET), $_GET[key($_GET)])->getPersonData();
+
+        $personData->editPersonData($person[0], $_POST);
+
+        (new HomeController())->showHomePage();
+    }
 
 }

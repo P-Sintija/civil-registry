@@ -5,10 +5,9 @@ namespace App\Models;
 use Medoo\Medoo;
 
 
-class SQLRepository implements Saver
+class SQLRepository implements PersonRepository
 {
     private Medoo $database;
-    private PersonCollection $persons;
 
     public function __construct()
     {
@@ -22,33 +21,13 @@ class SQLRepository implements Saver
     }
 
 
-    private function loadData(): void
-    {
-
-        $this->persons = new PersonCollection();
-
-        $data = $this->database->select('persons', '*');
-
-        foreach ($data as $person) {
-            $this->persons->addPerson(
-                new Person($person['name'], $person['surname'], $person['personalCode']));
-        }
-
-    }
-
-    public function getPersonData(): PersonCollection
-    {
-        $this->loadData();
-        return $this->persons;
-    }
-
-
-    public function savePersonData(string $name, string $surname, string $code): void
+    public function save(array $newInfo): void
     {
         $this->database->insert('persons', [
-            'name' => $name,
-            'surname' => $surname,
-            'personalCode' => $code
+            'name' => $newInfo['name'],
+            'surname' => $newInfo['surname'],
+            'personalId' => $newInfo['personalId'],
+            'personality' => $newInfo['personality']
         ]);
     }
 
@@ -56,23 +35,44 @@ class SQLRepository implements Saver
     {
         $searched = new PersonCollection();
 
-        $where = [$key => $value];
+        if($key === 'personalId' && $value[6] === '-') {
+            $value = substr($value,0,6) . substr($value,7,strlen($value)-1);
+        }
 
-        $data = $this->database->select('persons', '*', $where);
 
+        $data = $this->database->select('persons', '*', [$key => $value]);
         foreach ($data as $person) {
             $searched->addPerson(
-                new Person($person['name'], $person['surname'], $person['personalCode']));
+                new Person($person['name'], $person['surname'], $person['personalId'], $person['personality']));
         }
 
         return $searched;
     }
 
+    public function checkPersonExists(array $info): bool
+    {
+        $where = ['personalId' => $info['personalId']];
+        if ($this->database->has('persons', $where)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function edit(Person $person, array $editedInfo): void
+    {
+        $where = ['personalId' => $person->getPersonalId()];
+
+        $this->database->update('persons', [
+            'name' => $editedInfo['name'],
+            'surname' => $editedInfo['surname'],
+            'personalId' => $editedInfo['personalId'],
+            'personality' => $editedInfo['personality']
+        ], $where);
+    }
 
     public function delete(string $key, string $value): void
     {
         $where = [$key => $value];
-
         $this->database->delete('persons', $where);
     }
 

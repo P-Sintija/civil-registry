@@ -25,50 +25,57 @@
     <button type="submit">Search</button>
 </form>
 
-<h3>Search by personal code</h3>
+<h3>Search by personal id</h3>
 
 <form method="post">
-    <label for="code">Personal code: </label>
-    <input type="text" name="personalCode" id="code">
+    <label for="code">Personal id: </label>
+    <input type="text" name="personalId" id="code">
     <button type="submit">Search</button>
 </form>
 
+<br>
 
-<?php
+<?php if (isset($_POST['name']) || isset($_POST['surname']) || isset($_POST['personalId'])) { ?>
 
-if (isset($_POST['name']) || isset($_POST['surname']) || isset($_POST['personalCode'])) {
-    foreach ($search->getPersonData() as $person) {
-        echo 'name: ' . $person->getName() .
-            '; surname: ' . $person->getSurname() .
-            '; personalCode: ' . $person->getPersonalCode() . '<br>';
-
-        ?>
-        <form method="post" action="/delete">
-            <button type="submit" name= <?php echo 'personalCode'; ?>
-            class="button" value= <?php echo $person->getPersonalCode(); ?>>DELETE</button>
-        </form>
-
-        <form method="get" action="/edit">
-
-            <?php $keys = ['name','personalCode']?>
-            <button type="submit" name= <?php foreach($keys as $key){
-                echo $key ;
-            }; ?>
-            class="button" value= <?php foreach( [$person->getName(), $person->getPersonalCode()] as $value) {
-                echo $value;
-            }; ?>>EDIT</button>
-        </form>
+<table border="1" cellspacing="0" cellpadding="5">
+    <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Personal id</th>
+        <th>Personality</th>
+        <th>Delete/Edit</th>
+    </tr>
 
 
-        <?php
-    }
-}
+    <?php foreach ($search->getPersonData() as $person) { ?>
 
-?>
+        <tr>
+            <td><?php echo $person->getName(); ?></td>
+            <td><?php echo $person->getSurname(); ?></td>
+            <td><?php echo $person->getPersonalId(); ?></td>
+            <td><?php echo $person->getPersonality(); ?></td>
+            <td>
+                <form method="post" action="/delete">
+                    <button type="submit" name= <?php echo 'personalId'; ?>
+                    class="button" value= <?php echo $person->getPersonalId(); ?>>delete
+                    </button>
+                </form>
 
+                <form method="get" action="/edit">
+                    <button type="submit" name= <?php echo 'personalId' ?>
+                    class="button" value= <?php echo $person->getPersonalId(); ?>>edit
+                    </button>
+                </form>
+            </td>
+        </tr>
+    <?php }
+    } ?>
+</table>
+
+<br>
 
 <form method="get" action="/">
-    <input type="submit" name="submit" value="back">
+    <input type="submit" name="submit" value="home">
 </form>
 
 

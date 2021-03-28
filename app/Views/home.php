@@ -16,6 +16,7 @@
     <input type="submit" name="submit" value="Add person">
 </form>
 
+<br>
 
 <form method="get" action="/search">
     <input type="submit" name="search" value="Search person">

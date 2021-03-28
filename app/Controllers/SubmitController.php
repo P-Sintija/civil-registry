@@ -10,28 +10,25 @@ class SubmitController
 {
     public function showPage(): void
     {
-        echo 'GET SUBMITCONTROLLER -> SHOWPAGE' . '<br>';
-
         require_once 'app/Views/submit.php';
     }
+
 
     public function savePerson(): void
     {
-        echo 'Save Person';
-
         $personData = new PersonAdmin();
-
-        if (isset($_POST['name']) && isset($_POST['username']) && isset($_POST['personalCode'])) {
-            $personData->validateInput($_POST['name'], $_POST['username'], $_POST['personalCode']);
+        if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['personalId'])) {
+            $personData->savePersonData($_POST);
         }
 
-        require_once 'app/Views/submit.php';
+        (new HomeController())->showHomePage();
     }
+
 
     public function deletePerson(): void
     {
         $personData = new PersonAdmin();
-        $personData->delete(key($_POST), $_POST[key($_POST)]);
+        $personData->deletePerson(key($_POST), $_POST[key($_POST)]);
 
         (new HomeController())->showHomePage();
     }

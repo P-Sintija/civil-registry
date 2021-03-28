@@ -2,32 +2,19 @@
 
 namespace App\Models;
 
-class Person {
+class Person
+{
     private string $name;
     private string $surname;
-    private string $personalCode;
+    private string $personalId;
+    private ?string $personality;
 
-    public function __construct(string $name, string $surname, string $code)
+    public function __construct(string $name, string $surname, string $code, string $personality = null)
     {
         $this->name = $name;
         $this->surname = $surname;
-        $this->personalCode = $code;
-    }
-
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function setSurname(string $surname): void
-    {
-        $this->surname = $surname;
-    }
-
-    public function setPersonalCode(string $code): void
-    {
-        $this->personalCode = $code;
+        $this->personalId = $code;
+        $this->personality = $personality;
     }
 
     public function getName(): string
@@ -40,9 +27,15 @@ class Person {
         return $this->surname;
     }
 
-    public function getPersonalCode(): string
+    public function getPersonalId(): string
     {
-        return $this->personalCode;
+        return $this->personalId;
     }
+
+    public function getPersonality(): ?string
+    {
+        return $this->personality;
+    }
+
 }
 
