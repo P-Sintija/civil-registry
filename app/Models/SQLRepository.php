@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Medoo\Medoo;
 
-class Register
+
+class SQLRepository implements Saver
 {
     private Medoo $database;
     private PersonCollection $persons;
@@ -21,7 +22,7 @@ class Register
     }
 
 
-    public function loadPersonData(): void
+    private function loadData(): void
     {
 
         $this->persons = new PersonCollection();
@@ -35,12 +36,11 @@ class Register
 
     }
 
-
-    public function getPersons(): PersonCollection
+    public function getPersonData(): PersonCollection
     {
+        $this->loadData();
         return $this->persons;
     }
-
 
 
     public function savePersonData(string $name, string $surname, string $code): void
@@ -52,11 +52,11 @@ class Register
         ]);
     }
 
-    public function searchByName(string $name): PersonCollection
+    public function search(string $key, string $value): PersonCollection
     {
         $searched = new PersonCollection();
 
-        $where = ['name' => $name];
+        $where = [$key => $value];
 
         $data = $this->database->select('persons', '*', $where);
 
@@ -68,9 +68,10 @@ class Register
         return $searched;
     }
 
-    public function deletePerson(string $name): void
+
+    public function delete(string $key, string $value): void
     {
-        $where = ['name' => $name];
+        $where = [$key => $value];
 
         $this->database->delete('persons', $where);
     }

@@ -9,23 +9,55 @@
 </head>
 <body>
 
-<?php echo 'SEARCH' ?>
-
-<h1>Search by name </h1>
+<h3>Search by name</h3>
 
 <form method="post">
     <label for="name">Name: </label>
     <input type="text" name="name" id="name">
-</form>
-
-<form method="get" action="/found">
     <button type="submit">Search</button>
 </form>
 
-<form method="get" action="/" >
-    <input type="submit" name="submit" value="back">
+<h3>Search by surname</h3>
+
+<form method="post">
+    <label for="surname">Surname: </label>
+    <input type="text" name="surname" id="surname">
+    <button type="submit">Search</button>
 </form>
 
+<h3>Search by personal code</h3>
+
+<form method="post">
+    <label for="code">Personal code: </label>
+    <input type="text" name="personalCode" id="code">
+    <button type="submit">Search</button>
+</form>
+
+
+<?php
+
+if (isset($_POST['name']) || isset($_POST['surname']) || isset($_POST['personalCode'])) {
+    foreach ($search->getPersonData() as $person) {
+        echo 'name: ' . $person->getName() .
+            '; surname: ' . $person->getSurname() .
+            '; personalCode: ' . $person->getPersonalCode() . '<br>';
+
+        ?>
+        <form method="post" action="/delete">
+            <button type="submit" name= <?php echo 'personalCode'; ?>
+            class="button" value= <?php echo $person->getPersonalCode(); ?>>DELETE</button>
+        </form>
+
+        <?php
+    }
+}
+
+?>
+
+
+<form method="get" action="/">
+    <input type="submit" name="submit" value="back">
+</form>
 
 
 </body>

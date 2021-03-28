@@ -15,11 +15,17 @@
     <label for="name">Name: </label>
     <input type="text" name="name" id="name">
 
+    <br>
+
     <label for="surname">Surname: </label>
     <input type="text" name="username" id="surname">
 
+    <br>
+
     <label for="code">Personal code: </label>
     <input type="text" name="personalCode" id="code">
+
+    <br>
 
     <button type="submit">Save</button>
 </form>

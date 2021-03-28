@@ -3,34 +3,38 @@
 
 namespace App\Controllers;
 
-use App\Models\Register;
+
+use App\Models\PersonAdmin;
 
 class SubmitController
 {
-    public function showPage()
+    public function showPage(): void
     {
-        var_dump($_SERVER['REQUEST_METHOD']);
-        var_dump($_GET);
-        var_dump($_POST);
+        echo 'GET SUBMITCONTROLLER -> SHOWPAGE' . '<br>';
 
-
-
-        echo 'show submit';
         require_once 'app/Views/submit.php';
     }
 
-    public function submit()
+    public function savePerson(): void
     {
-        var_dump($_SERVER['REQUEST_METHOD']);
-        var_dump($_GET);
-        var_dump($_POST);
+        echo 'Save Person';
 
-        $register = new Register();
-        if(isset($_POST['name']) && isset($_POST['username']) && isset($_POST['personalCode'])){
-            $register->savePersonData($_POST['name'],$_POST['username'],$_POST['personalCode']);
+        $personData = new PersonAdmin();
+
+        if (isset($_POST['name']) && isset($_POST['username']) && isset($_POST['personalCode'])) {
+            $personData->validateInput($_POST['name'], $_POST['username'], $_POST['personalCode']);
         }
 
-        echo 'post submit';
         require_once 'app/Views/submit.php';
     }
+
+    public function deletePerson(): void
+    {
+        $personData = new PersonAdmin();
+        $personData->delete(key($_POST), $_POST[key($_POST)]);
+
+        require_once 'app/Views/home.php';
+    }
+
+
 }

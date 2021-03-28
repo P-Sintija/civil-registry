@@ -10,7 +10,7 @@
 <body>
 
 
-<?php echo 'HOME' ?>
+<h1>Civil registry</h1>
 
 <form method="get" action="/submit">
     <input type="submit" name="submit" value="Add person">

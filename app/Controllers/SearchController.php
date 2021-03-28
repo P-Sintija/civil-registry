@@ -2,44 +2,33 @@
 
 namespace App\Controllers;
 
-use App\Models\Register;
+use App\Models\PersonAdmin;
+use App\Models\PersonCollection;
+
 
 class SearchController
 {
-    public function showPage()
+    public function showPage(): void
     {
-        echo 'show search';
+        echo 'GET SEARCHCONTROLLER -> SHOWPAGE' . '<br>';
+
         require_once 'app/Views/search.php';
     }
 
+    public function searchPerson(): void
+    {
+        $personData = new PersonAdmin();
 
-    public function search() {
-
-
-        var_dump($_SERVER['REQUEST_METHOD']);
-        var_dump($_GET);
         var_dump($_POST);
+        $search = new PersonCollection();
 
-        $message = '';
-
-        $register = new Register();
-
-        $found = $register->searchByName($_POST['name']);
-
-        if(isset($_POST['name'])) {
-
-            if (count($found->getPersonData()) > 0) {
-                $message = 'I AM HERE';
-
-                require_once 'app/Views/found.php';
-            } else {
-                $message = 'I AM NOT HERE';
-                require_once 'app/Views/error.php';
-            }
+        if (isset($_POST[key($_POST)])) {
+            $search = $personData->search(key($_POST), $_POST[key($_POST)]);
         }
 
 
-
+        require_once 'app/Views/search.php';
     }
+
 
 }

@@ -1,39 +1,18 @@
 <?php
-namespace App\Models;
 
+namespace App\Models;
 
 
 class PersonAdmin
 {
-    private Medoo $database;
+    private Saver $database;
     private PersonCollection $persons;
 
     public function __construct()
     {
-        $this->database = new Medoo([
-            'database_type' => 'mysql',
-            'database_name' => 'person-database',
-            'server' => 'localhost',
-            'username' => 'root',
-            'password' => ''
-        ]);
+        $this->database = new SQLRepository();
+        $this->persons = $this->database->getPersonData();
     }
-
-
-    public function loadPersonData(): void
-    {
-
-        $this->persons = new PersonCollection();
-
-        $data = $this->database->select('persons', '*');
-
-        foreach ($data as $person) {
-            $this->persons->addPerson(
-                new Person($person['name'], $person['surname'], $person['personalCode']));
-        }
-
-    }
-
 
     public function getPersons(): PersonCollection
     {
@@ -41,38 +20,31 @@ class PersonAdmin
     }
 
 
-
-    public function savePersonData(string $name, string $surname, string $code): void
+    public function validateInput(string $name, string $surname, string $code): void
     {
-        $this->database->insert('persons', [
-            'name' => $name,
-            'surname' => $surname,
-            'personalCode' => $code
-        ]);
+        echo 'PERSON ADMIN->VALIDATE INPUT -> SQL->SAVE';
+        echo 'name:' . $name . '  surname:' . $surname . '  code:' . $code;
+
+        //todo - validācija visiem inputiem, vai vārdā nav char,
+        // vai personas kodā nav char un vai tāds jau neeksistē;
+
+
+        $this->database->savePersonData($name, $surname, $code);
     }
 
-    public function searchByName(string $name): PersonCollection
+    public function search(string $key, string $value): PersonCollection
     {
-        $searched = new PersonCollection();
-
-        $where = ['name' => $name];
-
-        $data = $this->database->select('persons', '*', $where);
-
-        foreach ($data as $person) {
-            $searched->addPerson(
-                new Person($person['name'], $person['surname'], $person['personalCode']));
+        $search = new PersonCollection();
+        if (strlen($value) > 0) {
+            $search = $this->database->search($key, $value);
         }
-
-        return $searched;
+        return $search;
     }
 
-    public function deletePerson(string $name): void
+    public function delete(string $key, string $value): void
     {
-        $where = ['name' => $name];
-
-        $this->database->delete('persons', $where);
+        $this->database->delete($key, $value);
     }
 
 }
-}
+

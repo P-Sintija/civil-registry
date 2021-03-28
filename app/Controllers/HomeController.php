@@ -3,7 +3,8 @@
 namespace App\Controllers;
 
 
-use App\Models\Register;
+use App\Models\PersonAdmin;
+
 
 class HomeController
 {
@@ -11,20 +12,32 @@ class HomeController
 
     public function showHomePage()
     {
-        $register = new Register();
-        $register->loadPersonData();
+        $personData = new PersonAdmin();
 
-        foreach($register->getPersons()->getPersonData() as $person){
+        echo 'GET HOMECONTROLLER SHOWHOMEPAGE' . '<br>';
+
+
+        foreach($personData->getPersons()->getPersonData() as $person){
             echo 'name: ' . $person->getName() .
                 '; surname: ' . $person->getSurname() .
                 '; personalCode: ' . $person->getPersonalCode() . '<br>';
         }
 
-
-
-
         require_once 'app/Views/home.php';
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /*  public function submit() {
           echo 'submit';
