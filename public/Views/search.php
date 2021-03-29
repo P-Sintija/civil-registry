@@ -47,7 +47,7 @@
     </tr>
 
 
-    <?php foreach ($search->getPersonData() as $person) { ?>
+    <?php foreach ($foundPersons->getPersonData() as $person) { ?>
 
         <tr>
             <td><?php echo $person->getName(); ?></td>

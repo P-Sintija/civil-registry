@@ -4,34 +4,38 @@
 namespace App\Controllers;
 
 
-use App\Models\PersonAdmin;
+use App\Validations\ExportValidation;
+use App\Services\StoreRequest;
+use App\Services\SubmitPersonService;
 
 class SubmitController
 {
+    private SubmitPersonService $service;
+
+    public function __construct(SubmitPersonService $service)
+    {
+        $this->service = $service;
+    }
+
+
     public function showPage(): void
     {
-        require_once 'app/Views/submit.php';
+        require_once __DIR__ . '/../../public/Views/submit.php';
     }
 
 
     public function savePerson(): void
     {
-        $personData = new PersonAdmin();
-        if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['personalId'])) {
-            $personData->savePersonData($_POST);
-        }
+        $validation = new ExportValidation();
+        $request = new StoreRequest($_POST['name'], $_POST['surname'], $_POST['personalId'], $_POST['personality']);
 
-        (new HomeController())->showHomePage();
+        if ($validation->validatePost($_POST) &&
+            !$this->service->getRepository()->checkPersonExists($request)) {
+            $this->service->save($request);
+        };
+
+        header('Location:/');
     }
-
-
-    public function deletePerson(): void
-    {
-        $personData = new PersonAdmin();
-        $personData->deletePerson(key($_POST), $_POST[key($_POST)]);
-
-        (new HomeController())->showHomePage();
-    }
-
 
 }
+
