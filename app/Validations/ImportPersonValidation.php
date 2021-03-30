@@ -2,18 +2,19 @@
 
 namespace App\Validations;
 
-class ExportValidation
+class ImportPersonValidation
 {
-    public function validatePost(array $post): bool
+    public function validateImport(string $name, string $surname, string $code): bool
     {
-        if (isset($post['name']) && isset($post['surname']) && isset($post['personalId']) &&
-            $this->validateText($post['name']) &&
-            $this->validateText($post['surname']) &&
-            $this->validateCode($post['personalId'])) {
+        if ($this->validateText($name) &&
+            $this->validateText($surname) &&
+            $this->validateCode($code)
+        ) {
             return true;
         }
         return false;
     }
+
 
     private function validateText(string $name): bool
     {
@@ -23,17 +24,17 @@ class ExportValidation
                 $char[] = $name[$i];
             }
         }
-
         if (count($char) === 0 && strlen($name) > 0 && strlen($name) <= 255) {
             return true;
         }
-
         return false;
     }
 
     private function validateCode(string $code): bool
     {
         $char = [];
+        $code = str_replace('-', '', $code);
+
         for ($i = 0; $i < strlen($code); $i++) {
             if (!is_numeric($code[$i])) {
                 $char[] = $code[$i];
@@ -45,6 +46,5 @@ class ExportValidation
         }
         return false;
     }
-
-
 }
+

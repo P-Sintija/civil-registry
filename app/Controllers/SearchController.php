@@ -8,6 +8,7 @@ namespace App\Controllers;
 
 use App\Models\PersonCollection;
 use App\Services\SearchPersonService;
+use App\Validations\RequestValidation;
 
 class SearchController
 {
@@ -26,9 +27,10 @@ class SearchController
     public function searchPerson(): void
     {
         $foundPersons = new PersonCollection();
+        $validation = new RequestValidation();
 
-        if (isset($_POST[key($_POST)]) && strlen($_POST[key($_POST)]) > 0) {
-            if (key($_POST) === 'personalId') {
+        if ($validation->ifPostPresent($_POST)) {
+            if ($validation->validatePersonIdKey(key($_POST))) {
                 $_POST[key($_POST)] = str_replace('-', '', $_POST[key($_POST)]);
             }
 

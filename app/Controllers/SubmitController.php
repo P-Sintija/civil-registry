@@ -4,7 +4,7 @@
 namespace App\Controllers;
 
 
-use App\Validations\ExportValidation;
+use App\Validations\ExportPersonValidation;
 use App\Services\StoreRequest;
 use App\Services\SubmitPersonService;
 
@@ -23,10 +23,9 @@ class SubmitController
         require_once __DIR__ . '/../../public/Views/submit.php';
     }
 
-
     public function savePerson(): void
     {
-        $validation = new ExportValidation();
+        $validation = new ExportPersonValidation();
         $request = new StoreRequest($_POST['name'], $_POST['surname'], $_POST['personalId'], $_POST['personality']);
 
         if ($validation->validatePost($_POST) &&

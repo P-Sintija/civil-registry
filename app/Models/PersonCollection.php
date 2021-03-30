@@ -1,13 +1,23 @@
 <?php
+
 namespace App\Models;
+
+use App\Validations\ImportPersonValidation;
 
 class PersonCollection
 {
-    private array $personData =[];
+    private array $personData = [];
 
-    public function addPerson(Person $person): void
+    public function addValidatedPerson(Person $person): void
     {
-        $this->personData[] = $person;
+        $validation = new ImportPersonValidation();
+        if ($validation->validateImport(
+            $person->getName(),
+            $person->getSurname(),
+            $person->getPersonalId()
+        )) {
+            $this->personData[] = $person;
+        }
     }
 
     public function getPersonData(): array

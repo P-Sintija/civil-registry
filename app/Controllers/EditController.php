@@ -6,7 +6,7 @@ namespace App\Controllers;
 use App\Services\EditPersonService;
 use App\Services\SearchPersonService;
 use App\Services\StoreRequest;
-use App\Validations\ExportValidation;
+use App\Validations\ExportPersonValidation;
 
 class EditController
 {
@@ -31,18 +31,17 @@ class EditController
     {
         $person = $this->searchService->search(key($_GET), $_GET[key($_GET)])->getPersonData();
 
-        $personToEdit = array_shift($person);
+        $person = array_shift($person);
 
         $request = new StoreRequest($_POST['name'], $_POST['surname'], $_POST['personalId'], $_POST['personality']);
 
         $personExists = $this->editService->getRepository()->checkPersonExists($request);
 
-        $validation = new ExportValidation();
+        $validation = new ExportPersonValidation();
         if ($validation->validatePost($_POST) &&
-            (!$personExists || ($personExists && $_POST['personalId'] === $personToEdit->getPersonalId()))) {
-            $this->editService->editPersonData($personToEdit, $request);
+            (!$personExists || ($_POST['personalId'] === $person->getPersonalId()))) {
+            $this->editService->editPersonData($person, $request);
         }
-
         header('Location:/');
     }
 

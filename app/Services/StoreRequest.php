@@ -9,12 +9,12 @@ class StoreRequest
     private string $personalId;
     private ?string $personality;
 
-    public function __construct(string $name, string $surname, string $code, string $personality = null)
+    public function __construct(string $name, string $surname, string $code, string $personality)
     {
         $this->name = $name;
         $this->surname = $surname;
         $this->personalId = $code;
-        $this->personality = $personality;
+        $this->setPersonality($personality);
     }
 
 
@@ -36,6 +36,14 @@ class StoreRequest
     public function getPersonality(): ?string
     {
         return $this->personality;
+    }
+
+    private function setPersonality(string $personality): void
+    {
+        if ($personality === '') {
+            $personality = null;
+        }
+        $this->personality = $personality;
     }
 
 }

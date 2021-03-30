@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Services\DeletePersonService;
+use App\Validations\RequestValidation;
 
 class DeleteController
 {
@@ -15,7 +16,8 @@ class DeleteController
 
     public function deletePerson(): void
     {
-        if (key($_POST) === 'personalId') {
+        $validation = new RequestValidation();
+        if ($validation->validatePersonIdKey(key($_POST))) {
             $this->service->deletePerson(key($_POST), $_POST[key($_POST)]);
         }
         header('Location:/');

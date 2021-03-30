@@ -17,9 +17,8 @@ class SearchPersonService
     public function search(string $key, string $value): PersonCollection
     {
         $foundPersons = new PersonCollection();
-        if (strlen($value) > 0) {
-            $foundPersons = $this->personRepository->search($key, $value);
-        }
+        $foundPersons = $this->personRepository->search($key, $value);
+
         return $foundPersons;
     }
 

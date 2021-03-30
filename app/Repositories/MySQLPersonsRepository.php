@@ -31,7 +31,6 @@ class MySQLPersonsRepository implements PersonRepository
         return false;
     }
 
-
     public function save(StoreRequest $post): void
     {
         $this->database->insert('persons', [
@@ -48,19 +47,17 @@ class MySQLPersonsRepository implements PersonRepository
 
         $data = $this->database->select('persons', '*', [$key => $value]);
         foreach ($data as $person) {
-            $searched->addPerson(
+            $searched->addValidatedPerson(
                 new Person($person['name'], $person['surname'], $person['personalId'], $person['personality']));
         }
         return $searched;
     }
-
 
     public function delete(string $key, string $value): void
     {
         $where = [$key => $value];
         $this->database->delete('persons', $where);
     }
-
 
     public function edit(Person $person, StoreRequest $post): void
     {
