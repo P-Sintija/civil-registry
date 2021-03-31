@@ -22,6 +22,25 @@ class MySQLPersonsRepository implements PersonRepository
         ]);
     }
 
+    public function getPersonsList(): PersonCollection
+    {
+        $personList = new PersonCollection();
+
+        $data = $this->database->select('persons', '*');
+        foreach ($data as $person) {
+            $personList->addValidatedPerson(
+                new Person(
+                    $person['name'],
+                    $person['surname'],
+                    $person['personalId'],
+                    $person['age'],
+                    $person['address'],
+                    $person['personality']));
+        }
+        return $personList;
+    }
+
+
     public function checkPersonExists(StoreRequest $post): bool
     {
         $where = ['personalId' => $post->getPersonalId()];
@@ -37,6 +56,8 @@ class MySQLPersonsRepository implements PersonRepository
             'name' => $post->getName(),
             'surname' => $post->getSurname(),
             'personalId' => $post->getPersonalId(),
+            'age' => $post->getAge(),
+            'address' => $post->getAddress(),
             'personality' => $post->getPersonality(),
         ]);
     }
@@ -48,7 +69,13 @@ class MySQLPersonsRepository implements PersonRepository
         $data = $this->database->select('persons', '*', [$key => $value]);
         foreach ($data as $person) {
             $searched->addValidatedPerson(
-                new Person($person['name'], $person['surname'], $person['personalId'], $person['personality']));
+                new Person(
+                    $person['name'],
+                    $person['surname'],
+                    $person['personalId'],
+                    $person['age'],
+                    $person['address'],
+                    $person['personality']));
         }
         return $searched;
     }
@@ -67,6 +94,8 @@ class MySQLPersonsRepository implements PersonRepository
             'name' => $post->getName(),
             'surname' => $post->getSurname(),
             'personalId' => $post->getPersonalId(),
+            'age' => (string)$post->getAge(),
+            'address' => $post->getAddress(),
             'personality' => $post->getPersonality()
         ], $where);
     }

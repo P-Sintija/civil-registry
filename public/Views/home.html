@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+
+
+<h1 class="text-4xl font-bold text-green-900 --tw-text-opacity: 1; m-3">Civil registry</h1>
+
+<form method="get" action="/list">
+    <input class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+           type="submit" name="list" value="List">
+</form>
+
+
+<form method="get" action="/submit">
+    <input class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+           type="submit" name="submit" value="Add person">
+</form>
+
+
+<form method="get" action="/search">
+    <input class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+           type="submit" name="search" value="Search person">
+</form>
+
+
+</body>
+</html>

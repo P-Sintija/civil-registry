@@ -14,7 +14,8 @@ class PersonCollection
         if ($validation->validateImport(
             $person->getName(),
             $person->getSurname(),
-            $person->getPersonalId()
+            $person->getPersonalId(),
+            $person->getAge()
         )) {
             $this->personData[] = $person;
         }

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+<h1 class="text-4xl font-bold text-green-900 --tw-text-opacity: 1; m-3">Add new person</h1>
+
+<form method="post">
+    <label class="text-2xl font-bold text-green-900 --tw-text-opacity: 1; m-2"
+           for="name">Name: </label>
+    <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700
+    leading-tight focus:outline-none focus:shadow-outline; m-1"
+           type="text" name="name" id="name">
+
+    <br>
+
+    <label class="text-2xl font-bold text-green-900 --tw-text-opacity: 1; m-2"
+           for="surname">Surname: </label>
+    <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700
+    leading-tight focus:outline-none focus:shadow-outline; m-1"
+           type="text" name="surname" id="surname">
+
+    <br>
+
+    <label class="text-2xl font-bold text-green-900 --tw-text-opacity: 1; m-2"
+           for="code">Personal id: </label>
+    <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700
+    leading-tight focus:outline-none focus:shadow-outline; m-1"
+           type="text" name="personalId" id="code">
+
+    <br>
+
+    <label class="text-2xl font-bold text-green-900 --tw-text-opacity: 1; m-2"
+           for="age">Age: </label>
+    <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700
+    leading-tight focus:outline-none focus:shadow-outline; m-1"
+           type="text" name="age" id="age">
+
+    <br>
+
+    <label class="text-2xl font-bold text-green-900 --tw-text-opacity: 1; m-2"
+           for="address">Address: </label>
+    <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700
+    leading-tight focus:outline-none focus:shadow-outline; m-1"
+           type="text" name="address" id="address">
+
+    <br>
+
+    <label class="text-2xl font-bold text-green-900 --tw-text-opacity: 1; m-2"
+           for="personality">Personality: </label>
+    <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700
+    leading-tight focus:outline-none focus:shadow-outline; m-1"
+           type="text" name="personality" id="personality">
+
+    <br>
+
+    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+            type="submit">save
+    </button>
+
+</form>
+
+<form method="get" action="/">
+    <input class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+           type="submit" name="submit" value="home">
+</form>
+
+</body>
+</html>

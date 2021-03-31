@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+
+<h3 class="text-3xl font-bold text-green-900 --tw-text-opacity: 1; m-3">Search by name</h3>
+
+<form method="post">
+    <label class="text-2xl font-bold text-green-500 --tw-text-opacity: 1; m-2"
+           for="name">Name: </label>
+    <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700
+    leading-tight focus:outline-none focus:shadow-outline; m-1"
+           type="text" name="name" id="name">
+    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+            type="submit">Search
+    </button>
+</form>
+
+<h3 class="text-3xl font-bold text-green-900 --tw-text-opacity: 1; m-3">Search by surname</h3>
+
+<form method="post">
+    <label class="text-2xl font-bold text-green-500 --tw-text-opacity: 1; m-2"
+           for="surname">Surname: </label>
+    <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700
+    leading-tight focus:outline-none focus:shadow-outline; m-1"
+           type="text" name="surname" id="surname">
+    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+            type="submit">Search
+    </button>
+</form>
+
+<h3 class="text-3xl font-bold text-green-900 --tw-text-opacity: 1; m-3">Search by personal id</h3>
+
+<form method="post">
+    <label class="text-2xl font-bold text-green-500 --tw-text-opacity: 1; m-2"
+           for="code">Personal id: </label>
+    <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700
+    leading-tight focus:outline-none focus:shadow-outline; m-1"
+           type="text" name="personalId" id="code">
+    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+            type="submit">Search
+    </button>
+</form>
+
+<h3 class="text-3xl font-bold text-green-900 --tw-text-opacity: 1; m-3">Search by age</h3>
+
+<form method="post">
+    <label class="text-2xl font-bold text-green-500 --tw-text-opacity: 1; m-2"
+           for="age">Age: </label>
+    <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700
+    leading-tight focus:outline-none focus:shadow-outline; m-1"
+           type="text" name="age" id="age">
+    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+            type="submit">Search
+    </button>
+</form>
+
+<h3 class="text-3xl font-bold text-green-900 --tw-text-opacity: 1; m-3">Search by address</h3>
+
+<form method="post">
+    <label class="text-2xl font-bold text-green-500 --tw-text-opacity: 1; m-2"
+           for="address">Address: </label>
+    <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700
+    leading-tight focus:outline-none focus:shadow-outline; m-1"
+           type="text" name="address" id="address">
+    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+            type="submit">Search
+    </button>
+</form>
+
+<br>
+
+{% if post|length > 0 %}
+
+<table class="border-collapse border border-green-800">
+    <tr class="border border-green-900">
+        <th class="border border-green-900 font-bold text-green-900 px-4 py-2">Name</th>
+        <th class="border border-green-900 font-bold text-green-900">Surname</th>
+        <th class="border border-green-900 font-bold text-green-900">Personal id</th>
+        <th class="border border-green-900 font-bold text-green-900">Age</th>
+        <th class="border border-green-900 font-bold text-green-900">Address</th>
+        <th class="border border-green-900 font-bold text-green-900">Personality</th>
+        <th class="border border-green-900 font-bold text-green-900">Delete/Edit</th>
+    </tr>
+
+    {% for person in list %}
+    <tr class="
+    {% if person.age < 18 %} bg-green-500	--tw-bg-opacity: 1; {% endif%}
+    {% if person.age >= 18 %} bg-green-700	--tw-bg-opacity: 1; {% endif%}
+     border border-green-900">
+        <td class="border border-green-900 text-white font-bold py-2 px-4">{{ person.name }}</td>
+        <td class="border border-green-900 text-white font-bold py-2 px-4">{{ person.surname }}</td>
+        <td class="border border-green-900 text-white py-2 px-4">{{ person.personalId }}</td>
+        <td class="border border-green-900 text-white py-2 px-4">{{ person.age }}</td>
+        <td class="border border-green-900 text-white py-2 px-4">{{ person.address }}</td>
+        <td class="border border-green-900 text-white py-2 px-4">{{ person.personality }}</td>
+        <td>
+            <form method="post" action="/delete">
+                <button class="bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 rounded m-2"
+                        type="submit" name="{{ button }}" value="{{ person.personalId }}"> delete
+                </button>
+            </form>
+
+            <form method="get" action="/edit">
+                <button class="bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 rounded m-2"
+                        type="submit" name="{{ button }}" value="{{ person.personalId }}">edit
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endif %}
+
+
+<br>
+
+<form method="get" action="/">
+    <input class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+           type="submit" name="submit" value="home">
+</form>
+
+</body>
+</html>

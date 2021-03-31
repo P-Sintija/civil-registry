@@ -16,8 +16,10 @@ class DeleteController
 
     public function deletePerson(): void
     {
+
         $validation = new RequestValidation();
         if ($validation->validatePersonIdKey(key($_POST))) {
+
             $this->service->deletePerson(key($_POST), $_POST[key($_POST)]);
         }
         header('Location:/');

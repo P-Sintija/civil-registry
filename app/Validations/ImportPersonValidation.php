@@ -4,11 +4,12 @@ namespace App\Validations;
 
 class ImportPersonValidation
 {
-    public function validateImport(string $name, string $surname, string $code): bool
+    public function validateImport(string $name, string $surname, string $code, int $age): bool
     {
         if ($this->validateText($name) &&
             $this->validateText($surname) &&
-            $this->validateCode($code)
+            $this->validateCode($code) &&
+            $this->validateAge($age)
         ) {
             return true;
         }
@@ -42,6 +43,14 @@ class ImportPersonValidation
         }
 
         if (count($char) === 0 && strlen($code) === 11) {
+            return true;
+        }
+        return false;
+    }
+
+    private function validateAge(int $age): bool
+    {
+        if ($age >= 0 && $age < 110) {
             return true;
         }
         return false;

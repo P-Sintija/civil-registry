@@ -2,14 +2,17 @@
 
 namespace App\Validations;
 
+use App\Services\StoreRequest;
+
 class ExportPersonValidation
 {
-    public function validatePost(array $post): bool
+    public function validatePost(StoreRequest $post): bool
     {
-        if (isset($post['name']) && isset($post['surname']) && isset($post['personalId']) &&
-            $this->validateText($post['name']) &&
-            $this->validateText($post['surname']) &&
-            $this->validateCode($post['personalId'])) {
+        if ($this->validateText($post->getName()) &&
+            $this->validateText($post->getSurname()) &&
+            $this->validateCode($post->getPersonalId()) &&
+            $this->validateAge($post->getAge())
+        ) {
             return true;
         }
         return false;
@@ -42,6 +45,14 @@ class ExportPersonValidation
         }
 
         if (count($char) === 0 && strlen($code) === 11) {
+            return true;
+        }
+        return false;
+    }
+
+    private function validateAge(string $age): bool
+    {
+        if (is_numeric($age) && (int)$age >= 0 && (int)$age < 110) {
             return true;
         }
         return false;

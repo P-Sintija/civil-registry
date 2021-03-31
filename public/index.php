@@ -4,12 +4,14 @@
 use App\Controllers\DeleteController;
 use App\Controllers\EditController;
 use App\Controllers\HomeController;
+use App\Controllers\PersonListController;
 use App\Controllers\SearchController;
 use App\Controllers\SubmitController;
 use App\Repositories\MySQLPersonsRepository;
 use App\Repositories\PersonRepository;
 use App\Services\DeletePersonService;
 use App\Services\EditPersonService;
+use App\Services\PersonListService;
 use App\Services\SearchPersonService;
 use App\Services\SubmitPersonService;
 use League\Container\Container;
@@ -22,6 +24,12 @@ $container = new Container;
 $container->add(PersonRepository::class, MySQLPersonsRepository::class);
 
 $container->add(HomeController::class, HomeController::class);
+
+$container->add(PersonListService::class,PersonListService::class)
+    ->addArgument(PersonRepository::class);
+
+$container->add(PersonListController::class, PersonListController::class)
+    ->addArgument(PersonListService::class);
 
 $container->add(SubmitPersonService::class, SubmitPersonService::class)
     ->addArgument(PersonRepository::class);
@@ -47,6 +55,8 @@ $container->add(EditController::class, EditController::class)
 ////////////////// ROUTS //////////////////////
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', [HomeController::class, 'showHomePage']);
+
+    $r->addRoute('GET', '/list', [PersonListController::class, 'showPage']);
 
     $r->addRoute('GET', '/submit', [SubmitController::class, 'showPage']);
     $r->addRoute('POST', '/submit', [SubmitController::class, 'savePerson']);

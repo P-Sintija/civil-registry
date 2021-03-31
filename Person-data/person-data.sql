@@ -26,7 +26,9 @@ CREATE TABLE `persons` (
   `name` varchar(255) NOT NULL,
   `surname` varchar(255) NOT NULL,
   `personalId` varchar(11) NOT NULL,
-  `personality` varchar(255) DEFAULT NULL
+  `personality` varchar(255) DEFAULT NULL,
+  `age` int(3) NOT NULL,
+  `address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -36,7 +38,7 @@ CREATE TABLE `persons` (
 
 LOCK TABLES `persons` WRITE;
 /*!40000 ALTER TABLE `persons` DISABLE KEYS */;
-INSERT INTO `persons` VALUES ('Anna','Beka','12345600004','bunny'),('Ivars','Apsubeka','12345611111','king of kings'),('Zelma','Piepe','12345622222','looser'),('Elvis','Burka','00000000000',NULL),('Aiva','Vizule','12345678908',NULL),('Aiva','Vizule','1234',NULL),('J$uris','Vizulis','01000000000',NULL),('Anna','Beka','12345600003',NULL);
+INSERT INTO `persons` VALUES ('Anna','Beka','12345600004','bunny',8,'711-2880 Nulla St.Mankato Mississippi 96522'),('Ivars','Apsubeka','12345611111','king of kings',12,'606-3727 Ullamcorper. Street Roseville NH 11523'),('Zelma','Piepe','12345622222','looser',1,'7292 Dictum Av.San Antonio MI 47096'),('Elvis','Burka','00000000000',NULL,43,'Ap #651-8679 Sodales Av. Tamuning PA 10855'),('Aiva','Vizule','12345678908',NULL,45,'935-9940 Tortor. Street Santa Rosa MN 98804'),('Aiva','Vizule','1234',NULL,32,'5587 Nunc. Avenue Erie Rhode Island 24975'),('J$uris','Vizulis','01000000000',NULL,78,'666-4366 Lacinia Avenue Idaho Falls Ohio 19253'),('Anna','Beka','12345600003',NULL,35,'557-6308 Lacinia Road San Bernardino ND 09289');
 /*!40000 ALTER TABLE `persons` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-30 13:28:41
+-- Dump completed on 2021-03-31 17:43:00
