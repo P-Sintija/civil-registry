@@ -6,14 +6,10 @@ class ImportPersonValidation
 {
     public function validateImport(string $name, string $surname, string $code, int $age): bool
     {
-        if ($this->validateText($name) &&
+        return $this->validateText($name) &&
             $this->validateText($surname) &&
             $this->validateCode($code) &&
-            $this->validateAge($age)
-        ) {
-            return true;
-        }
-        return false;
+            $this->validateAge($age);
     }
 
 
@@ -25,10 +21,7 @@ class ImportPersonValidation
                 $char[] = $name[$i];
             }
         }
-        if (count($char) === 0 && strlen($name) > 0 && strlen($name) <= 255) {
-            return true;
-        }
-        return false;
+        return count($char) === 0 && strlen($name) > 0 && strlen($name) <= 255;
     }
 
     private function validateCode(string $code): bool
@@ -42,18 +35,12 @@ class ImportPersonValidation
             }
         }
 
-        if (count($char) === 0 && strlen($code) === 11) {
-            return true;
-        }
-        return false;
+        return count($char) === 0 && strlen($code) === 11;
     }
 
     private function validateAge(int $age): bool
     {
-        if ($age >= 0 && $age < 110) {
-            return true;
-        }
-        return false;
+        return $age >= 0 && $age < 110;
     }
 }
 

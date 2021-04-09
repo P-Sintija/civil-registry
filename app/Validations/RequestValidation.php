@@ -6,18 +6,12 @@ class RequestValidation
 {
     public function validatePersonIdKey(string $key): bool
     {
-        if ($key === 'personalId') {
-            return true;
-        };
-        return false;
+        return $key === 'personalId';
     }
 
     public function ifPostPresent(array $post): bool
     {
-        if (isset($post[key($post)]) && strlen($post[key($post)]) > 0) {
-            return true;
-        }
-        return false;
+        return isset($post[key($post)]) && strlen($post[key($post)]) > 0;
     }
 
 

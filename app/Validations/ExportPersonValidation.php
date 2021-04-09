@@ -8,14 +8,10 @@ class ExportPersonValidation
 {
     public function validatePost(StoreRequest $post): bool
     {
-        if ($this->validateText($post->getName()) &&
+        return $this->validateText($post->getName()) &&
             $this->validateText($post->getSurname()) &&
             $this->validateCode($post->getPersonalId()) &&
-            $this->validateAge($post->getAge())
-        ) {
-            return true;
-        }
-        return false;
+            $this->validateAge($post->getAge());
     }
 
 
@@ -28,11 +24,7 @@ class ExportPersonValidation
             }
         }
 
-        if (count($char) === 0 && strlen($name) > 0 && strlen($name) <= 255) {
-            return true;
-        }
-
-        return false;
+        return count($char) === 0 && strlen($name) > 0 && strlen($name) <= 255;
     }
 
     private function validateCode(string $code): bool
@@ -44,18 +36,12 @@ class ExportPersonValidation
             }
         }
 
-        if (count($char) === 0 && strlen($code) === 11) {
-            return true;
-        }
-        return false;
+        return count($char) === 0 && strlen($code) === 11;
     }
 
     private function validateAge(string $age): bool
     {
-        if (is_numeric($age) && (int)$age >= 0 && (int)$age < 110) {
-            return true;
-        }
-        return false;
+        return is_numeric($age) && (int)$age >= 0 && (int)$age < 110;
     }
 
 

@@ -4,13 +4,18 @@
 use App\Controllers\DeleteController;
 use App\Controllers\EditController;
 use App\Controllers\HomeController;
+use App\Controllers\AuthorizeController;
 use App\Controllers\PersonListController;
 use App\Controllers\SearchController;
 use App\Controllers\SubmitController;
+use App\Controllers\LoginController;
 use App\Repositories\MySQLPersonsRepository;
+use App\Repositories\MySQLTokenRepository;
 use App\Repositories\PersonRepository;
 use App\Services\DeletePersonService;
 use App\Services\EditPersonService;
+use App\Services\AuthorizeUserService;
+use App\Services\LoginUserService;
 use App\Services\PersonListService;
 use App\Services\SearchPersonService;
 use App\Services\SubmitPersonService;
@@ -18,10 +23,12 @@ use League\Container\Container;
 
 require_once '../vendor/autoload.php';
 
+session_start();
 
 ////////////////// CONTAINER /////////////////
 $container = new Container;
 $container->add(PersonRepository::class, MySQLPersonsRepository::class);
+$container->add(MySQLTokenRepository::class, MySQLTokenRepository::class);
 
 $container->add(HomeController::class, HomeController::class);
 
@@ -51,6 +58,17 @@ $container->add(EditPersonService::class, EditPersonService::class)
 $container->add(EditController::class, EditController::class)
     ->addArguments([EditPersonService::class, SearchPersonService::class]);
 
+$container->add(AuthorizeUserService::class, AuthorizeUserService::class)
+    ->addArguments([PersonRepository::class, MySQLTokenRepository::class]);
+$container->add(AuthorizeController::class,AuthorizeController::class)
+    ->addArgument(AuthorizeUserService::class);
+
+$container->add(LoginUserService::class,LoginUserService::class)
+    ->addArguments([PersonRepository::class, MySQLTokenRepository::class]);
+$container->add(LoginController::class, LoginController::class)
+->addArgument(LoginUserService::class);
+
+
 
 ////////////////// ROUTS //////////////////////
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
@@ -68,6 +86,12 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     $r->addRoute('GET', '/edit', [EditController::class, 'showPage']);
     $r->addRoute('POST', '/edit', [EditController::class, 'editPerson']);
+
+    $r->addRoute('GET', '/login', [AuthorizeController::class, 'showPage'] );
+    $r->addRoute('POST', '/login', [AuthorizeController::class, 'createUser'] );
+
+    $r->addRoute('GET', '/auth', [LoginController::class, 'userInfo']);
+    $r->addRoute('POST', '/auth', [LoginController::class, 'logOut']);
 });
 
 

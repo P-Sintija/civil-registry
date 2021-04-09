@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+
+
+<h1 class="text-4xl font-bold text-green-900 --tw-text-opacity: 1; m-3">Login</h1>
+
+<form method="post">
+    <label class="text-2xl font-bold text-green-900 --tw-text-opacity: 1; m-2"
+           for="personalId">Id: </label>
+    <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700
+    leading-tight focus:outline-none focus:shadow-outline; m-1"
+           type="text" name="personalId" id="personalId">
+
+    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+            type="submit">submit
+    </button>
+
+</form>
+
+{% if post|length > 0 %}
+<p class="text-2xl font-bold text-green-500 --tw-text-opacity: 1; m-3"> {{ message }} </p>
+<a class="text-1xl font-bold text-green-700 --tw-text-opacity: 1; m-3 underline text-decoration: underline; "
+        href="{{ link }}" >
+    {{ link }}
+</a>
+{% endif %}
+
+</body>
+</html>

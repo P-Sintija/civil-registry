@@ -22,6 +22,7 @@ class MySQLPersonsRepository implements PersonRepository
         ]);
     }
 
+
     public function getPersonsList(): PersonCollection
     {
         $personList = new PersonCollection();
