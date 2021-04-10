@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 class Token
@@ -19,9 +20,13 @@ class Token
         return $this->personalId;
     }
 
-
     public function getTime(): int
     {
         return $this->time;
+    }
+
+    public function getToken(): string
+    {
+        return $this->token;
     }
 }
