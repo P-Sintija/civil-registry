@@ -12,6 +12,7 @@ use App\Controllers\LoginController;
 use App\Repositories\MySQLPersonsRepository;
 use App\Repositories\MySQLTokenRepository;
 use App\Repositories\PersonRepository;
+use App\Repositories\TokenRepository;
 use App\Services\DeletePersonService;
 use App\Services\EditPersonService;
 use App\Services\AuthorizeUserService;
@@ -19,6 +20,7 @@ use App\Services\LoginUserService;
 use App\Services\PersonListService;
 use App\Services\SearchPersonService;
 use App\Services\SubmitPersonService;
+use App\Services\UserAdminService;
 use League\Container\Container;
 
 require_once '../vendor/autoload.php';
@@ -28,11 +30,12 @@ session_start();
 ////////////////// CONTAINER /////////////////
 $container = new Container;
 $container->add(PersonRepository::class, MySQLPersonsRepository::class);
-$container->add(MySQLTokenRepository::class, MySQLTokenRepository::class);
+$container->add(TokenRepository::class, MySQLTokenRepository::class);
 
-$container->add(HomeController::class, HomeController::class);
+$container->add(HomeController::class, HomeController::class)
+    ->addArgument(UserAdminService::class);
 
-$container->add(PersonListService::class,PersonListService::class)
+$container->add(PersonListService::class, PersonListService::class)
     ->addArgument(PersonRepository::class);
 
 $container->add(PersonListController::class, PersonListController::class)
@@ -59,15 +62,17 @@ $container->add(EditController::class, EditController::class)
     ->addArguments([EditPersonService::class, SearchPersonService::class]);
 
 $container->add(AuthorizeUserService::class, AuthorizeUserService::class)
-    ->addArguments([PersonRepository::class, MySQLTokenRepository::class]);
-$container->add(AuthorizeController::class,AuthorizeController::class)
+    ->addArguments([PersonRepository::class, TokenRepository::class]);
+$container->add(AuthorizeController::class, AuthorizeController::class)
     ->addArgument(AuthorizeUserService::class);
 
-$container->add(LoginUserService::class,LoginUserService::class)
-    ->addArguments([PersonRepository::class, MySQLTokenRepository::class]);
+$container->add(LoginUserService::class, LoginUserService::class)
+    ->addArguments([PersonRepository::class, TokenRepository::class]);
 $container->add(LoginController::class, LoginController::class)
-->addArgument(LoginUserService::class);
+    ->addArgument(LoginUserService::class);
 
+$container->add(UserAdminService::class, UserAdminService::class)
+    ->addArgument(TokenRepository::class);
 
 
 ////////////////// ROUTS //////////////////////
@@ -87,11 +92,11 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/edit', [EditController::class, 'showPage']);
     $r->addRoute('POST', '/edit', [EditController::class, 'editPerson']);
 
-    $r->addRoute('GET', '/login', [AuthorizeController::class, 'showPage'] );
-    $r->addRoute('POST', '/login', [AuthorizeController::class, 'createUser'] );
+    $r->addRoute('GET', '/login', [AuthorizeController::class, 'showPage']);
+    $r->addRoute('POST', '/login', [AuthorizeController::class, 'createUser']);
 
     $r->addRoute('GET', '/auth', [LoginController::class, 'userInfo']);
-    $r->addRoute('POST', '/auth', [LoginController::class, 'logOut']);
+    $r->addRoute('POST', '/auth/{id:\d+}', [LoginController::class, 'logOut']);
 });
 
 

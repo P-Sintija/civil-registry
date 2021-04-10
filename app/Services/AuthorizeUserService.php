@@ -4,16 +4,16 @@ namespace App\Services;
 
 
 use App\Models\PersonCollection;
-use App\Repositories\MySQLTokenRepository;
 use App\Repositories\PersonRepository;
+use App\Repositories\TokenRepository;
 
 class AuthorizeUserService
 {
 
     private PersonRepository $personRepository;
-    private MySQLTokenRepository $tokenRepository;
+    private TokenRepository $tokenRepository;
 
-    public function __construct(PersonRepository $personRepository, MySQLTokenRepository $tokenRepository)
+    public function __construct(PersonRepository $personRepository, TokenRepository $tokenRepository)
     {
         $this->personRepository = $personRepository;
         $this->tokenRepository = $tokenRepository;

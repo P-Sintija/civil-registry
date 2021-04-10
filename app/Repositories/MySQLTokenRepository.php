@@ -3,9 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Token;
+use App\Models\TokenCollection;
 use Medoo\Medoo;
 
-class MySQLTokenRepository
+class MySQLTokenRepository implements TokenRepository
 {
     private Medoo $database;
 
@@ -29,9 +30,19 @@ class MySQLTokenRepository
         ]);
     }
 
+    public function getTokens(): TokenCollection
+    {
+        $tokens = new TokenCollection();
+        $data = $this->database->select('token', '*');
+        foreach ($data as $token) {
+            $tokens->add(new Token($token['personalId'], $token['token'], $token['time']));
+        }
+        return $tokens;
+    }
+
     public function tokenExists(string $token): bool
     {
-        $found=[];
+        $found = [];
         $where = ['token' => $token];
         $data = $this->database->select('token', '*', $where);
         $found[] = $data;
@@ -45,4 +56,9 @@ class MySQLTokenRepository
         return new Token($data['0']['personalId'], $data['0']['token'], $data['0']['time']);
     }
 
+    public function delete(string $value): void
+    {
+        $where = ['personalId' => $value];
+        $this->database->delete('token', $where);
+    }
 }

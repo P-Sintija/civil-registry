@@ -2,15 +2,15 @@
 namespace App\Services;
 
 use App\Models\PersonCollection;
-use App\Repositories\MySQLTokenRepository;
 use App\Repositories\PersonRepository;
+use App\Repositories\TokenRepository;
 
 class LoginUserService
 {
     private PersonRepository $personRepository;
-    private MySQLTokenRepository $tokenRepository;
+    private TokenRepository $tokenRepository;
 
-    public function __construct(PersonRepository $personRepository, MySQLTokenRepository $tokenRepository)
+    public function __construct(PersonRepository $personRepository, TokenRepository $tokenRepository)
     {
         $this->personRepository = $personRepository;
         $this->tokenRepository = $tokenRepository;
@@ -27,6 +27,12 @@ class LoginUserService
         $id = $this->findPersonalId($token);
         return $this->personRepository->search('personalId', $id);
     }
+
+    public function LogOutUser(array $var): void
+    {
+        $this->tokenRepository->delete($var['id']);
+    }
+
 
     private function findPersonalId(string $id): string
     {

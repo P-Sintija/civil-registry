@@ -25,14 +25,16 @@ class LoginController
             $_SESSION['auth_id'] = $user->getPersonalId();
             echo $twig->render('user.html', [
                 'name' => $user->getName(),
+                'id' => $user->getPersonalId()
             ]);
         } else {
            header('Location:/');
         }
     }
 
-    public function logOut(): void
+    public function logOut(array $var): void
     {
+        $this->service->LogOutUser($var);
         unset($_SESSION['auth_id']);
         header('Location:/');
     }
