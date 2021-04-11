@@ -4,6 +4,7 @@ namespace App\Models;
 
 class Person
 {
+    private int $ID;
     private string $name;
     private string $surname;
     private string $personalId;
@@ -11,8 +12,8 @@ class Person
     private string $address;
     private ?string $personality;
 
-
     public function __construct(
+        int $ID,
         string $name,
         string $surname,
         string $code,
@@ -20,6 +21,7 @@ class Person
         string $address,
         string $personality = null)
     {
+        $this->ID = $ID;
         $this->name = $name;
         $this->surname = $surname;
         $this->personalId = $code;
@@ -28,6 +30,11 @@ class Person
         $this->personality = $personality;
     }
 
+    public function getID(): int
+    {
+        return $this->ID;
+    }
+    
     public function getName(): string
     {
         return $this->name;

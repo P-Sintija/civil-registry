@@ -31,6 +31,7 @@ class MySQLPersonsRepository implements PersonRepository
         foreach ($data as $person) {
             $personList->addValidatedPerson(
                 new Person(
+                    $person['ID'],
                     $person['name'],
                     $person['surname'],
                     $person['personalId'],
@@ -71,6 +72,7 @@ class MySQLPersonsRepository implements PersonRepository
         foreach ($data as $person) {
             $searched->addValidatedPerson(
                 new Person(
+                    $person['ID'],
                     $person['name'],
                     $person['surname'],
                     $person['personalId'],

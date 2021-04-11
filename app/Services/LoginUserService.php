@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\PersonCollection;
@@ -22,21 +23,14 @@ class LoginUserService
             time() < $this->tokenRepository->searchPersonalId($token)->getTime();
     }
 
-    public function userInfo(string $token): PersonCollection
+    public function userInfo(int $Id): PersonCollection
     {
-        $id = $this->findPersonalId($token);
-        return $this->personRepository->search('personalId', $id);
+        return $this->personRepository->search('ID', $Id);
     }
 
     public function LogOutUser(array $var): void
     {
-        $this->tokenRepository->delete($var['id']);
-    }
-
-
-    private function findPersonalId(string $id): string
-    {
-        return $this->tokenRepository->searchPersonalId($id)->getPersonalId();
+        $this->tokenRepository->delete((int)$var['id']);
     }
 
 }

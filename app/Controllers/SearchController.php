@@ -51,6 +51,7 @@ class SearchController
         foreach ($foundPersons->getPersonData() as $person) {
             $personList[] =
                 [
+                    'ID' => $person->getID(),
                     'name' => $person->getName(),
                     'surname' => $person->getSurname(),
                     'personalId' => $person->getPersonalId(),
@@ -66,7 +67,7 @@ class SearchController
         echo $twig->render('search.html', [
             'post' => $post[key($post)],
             'list' => $personList,
-            'button' => 'personalId'
+            'button' => 'ID'
         ]);
 
     }

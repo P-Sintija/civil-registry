@@ -21,10 +21,10 @@ class MySQLTokenRepository implements TokenRepository
         ]);
     }
 
-    public function createToken(string $id, string $token): void
+    public function createToken(int $id, string $token): void
     {
         $this->database->insert('token', [
-            'personalId' => $id,
+            'ID' => $id,
             'token' => $token,
             'time' => time() + 50
         ]);
@@ -35,7 +35,7 @@ class MySQLTokenRepository implements TokenRepository
         $tokens = new TokenCollection();
         $data = $this->database->select('token', '*');
         foreach ($data as $token) {
-            $tokens->add(new Token($token['personalId'], $token['token'], $token['time']));
+            $tokens->add(new Token($token['ID'], $token['token'], $token['time']));
         }
         return $tokens;
     }
@@ -53,12 +53,12 @@ class MySQLTokenRepository implements TokenRepository
     {
         $where = ['token' => $token];
         $data = $this->database->select('token', '*', $where);
-        return new Token($data['0']['personalId'], $data['0']['token'], $data['0']['time']);
+        return new Token($data['0']['ID'], $data['0']['token'], $data['0']['time']);
     }
 
-    public function delete(string $value): void
+    public function delete(int $value): void
     {
-        $where = ['personalId' => $value];
+        $where = ['ID' => $value];
         $this->database->delete('token', $where);
     }
 }

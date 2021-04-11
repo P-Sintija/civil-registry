@@ -32,11 +32,12 @@ class AuthorizeController
         $user = $this->service->searchPerson(key($_POST), $_POST[key($_POST)])->getPersonData();
 
         if (count($user) == 1) {
+            $_SESSION['user'][$user[0]->getId()] = $user[0]->getPersonalId();
             echo $twig->render('authorize.html', [
                 'post' => $_POST,
                 'link' => $_SERVER['HTTP_ORIGIN'] .
                     '/auth?token=' .
-                    $this->service->createToken($_POST[key($_POST)]),
+                    $this->service->createToken($user[0]),
                 'message' => 'authorization was successful'
             ]);
         } else {

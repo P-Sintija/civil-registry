@@ -3,6 +3,7 @@
 namespace App\Services;
 
 
+use App\Models\Person;
 use App\Models\PersonCollection;
 use App\Repositories\PersonRepository;
 use App\Repositories\TokenRepository;
@@ -26,10 +27,11 @@ class AuthorizeUserService
         return $user;
     }
 
-    public function createToken(string $personalId): string
+    public function createToken(Person $person): string
     {
-        $password = password_hash($personalId, PASSWORD_BCRYPT);
-        $this->tokenRepository->createToken($personalId, $password);
+        $password = password_hash($person->getPersonalId(), PASSWORD_BCRYPT);
+
+        $this->tokenRepository->createToken($person->getID(), $password);
         return $password;
     }
 

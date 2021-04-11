@@ -6,7 +6,7 @@ class RequestValidation
 {
     public function validatePersonIdKey(string $key): bool
     {
-        return $key === 'personalId';
+        return $key === 'ID';
     }
 
     public function ifPostPresent(array $post): bool

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Services\LoginUserService;
@@ -20,23 +21,31 @@ class LoginController
         $loader = new FilesystemLoader('Views');
         $twig = new Environment($loader);
 
-        if($this->service->successfulLogin($_GET['token'])) {
-            $user = $this->service->userInfo($_GET['token'])->getPersonData()[0];
-            $_SESSION['auth_id'] = $user->getPersonalId();
+        $userID = 0;
+        foreach ($_SESSION['user'] as $key => $value) {
+            if (password_verify($value, $_GET['token'])) {
+                $userID = $key;
+            }
+        }
+
+        if ($this->service->successfulLogin($_GET['token'])) {
+            $user = $this->service->userInfo($userID)->getPersonData()[0];
             echo $twig->render('user.html', [
                 'name' => $user->getName(),
-                'id' => $user->getPersonalId()
+                'id' => $user->getID()
             ]);
         } else {
-           header('Location:/');
+            header('Location:/');
         }
+
     }
 
     public function logOut(array $var): void
     {
         $this->service->LogOutUser($var);
-        unset($_SESSION['auth_id']);
+        unset($_SESSION['user'][(int)$var['id']]);
         header('Location:/');
     }
+
 
 }

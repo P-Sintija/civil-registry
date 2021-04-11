@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\Token;
@@ -6,7 +7,7 @@ use App\Models\TokenCollection;
 
 interface TokenRepository
 {
-    public function createToken(string $id, string $token): void;
+    public function createToken(int $id, string $token): void;
 
     public function getTokens(): TokenCollection;
 
@@ -14,6 +15,6 @@ interface TokenRepository
 
     public function searchPersonalId(string $token): Token;
 
-    public function delete(string $value): void;
+    public function delete(int $value): void;
 
 }

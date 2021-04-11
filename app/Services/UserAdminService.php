@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\TokenCollection;
@@ -19,12 +20,10 @@ class UserAdminService
         return $this->tokenRepository->getTokens();
     }
 
-    public function AutoLogOut(string $id): void
+    public function AutoLogOut(int $id): void
     {
         $this->tokenRepository->delete($id);
     }
-
-
 
 
 }

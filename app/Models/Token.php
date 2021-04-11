@@ -4,20 +4,20 @@ namespace App\Models;
 
 class Token
 {
-    private string $personalId;
+    private string $id;
     private string $token;
     private int $time;
 
     public function __construct(string $id, string $token, int $time)
     {
-        $this->personalId = $id;
+        $this->id = $id;
         $this->token = $token;
         $this->time = $time;
     }
 
-    public function getPersonalId(): string
+    public function getId(): string
     {
-        return $this->personalId;
+        return $this->id;
     }
 
     public function getTime(): int
